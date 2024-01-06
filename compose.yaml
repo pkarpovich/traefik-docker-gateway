@@ -1,0 +1,11 @@
+services:
+  gateway:
+    image: traefik:v2.10
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+
+networks:
+  proxy:
+    external: true
