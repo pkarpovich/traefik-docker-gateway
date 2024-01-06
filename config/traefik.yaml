@@ -1,0 +1,40 @@
+log:
+  level: INFO
+
+global:
+  checkNewVersion: true
+
+experimental:
+  http3: true
+
+ping: { }
+
+api:
+  insecure: true
+  dashboard: true
+
+providers:
+  docker:
+    exposedByDefault: false
+    network: proxy
+    watch: true
+
+entryPoints:
+  web:
+    address: :80
+
+  web-secure:
+    address: :443
+
+#  web-new:
+#    address: :443
+#    http3:
+#      advertisedPort: 443
+
+certificatesResolvers:
+  le:
+    acme:
+      httpChallenge:
+        entryPoint: web
+
+accessLog: { }
