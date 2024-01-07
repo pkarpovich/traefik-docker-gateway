@@ -34,6 +34,7 @@ entryPoints:
 certificatesResolvers:
   le:
     acme:
+      email: '{{env "EMAIL"}}'
       httpChallenge:
         entryPoint: web
 
