@@ -5,7 +5,6 @@ services:
     environment:
       - TRAEFIK_CERTIFICATESRESOLVERS_LE_ACME_EMAIL=${EMAIL}
     ports:
-      - 8080:8080
       - 80:80
       - 443:443
     volumes:
@@ -16,9 +15,11 @@ services:
       - proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.dashboard.rule=Host(`dashboard.localhost`)"
+      - "traefik.http.routers.dashboard.rule=Host(`${DASHBOARD_DOMAIN}`)"
       - "traefik.http.routers.dashboard.service=api@internal"
-      - "traefik.http.routers.dashboard.entrypoints=web"
+      - "traefik.http.routers.dashboard.entrypoints=web-secure"
+      - "traefik.http.middlewares.dashboard-auth.basicauth.users=${DASHBOARD_AUTH}"
+      - "traefik.http.routers.dashboard.middlewares=dashboard-auth"
 
 volumes:
   letsencrypt_data:

@@ -7,10 +7,6 @@ global:
 experimental:
   http3: true
 
-ping: { }
-
-accessLog: { }
-
 api:
   insecure: true
   dashboard: true
