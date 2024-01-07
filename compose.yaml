@@ -3,19 +3,25 @@ services:
     image: traefik:v2.10
     restart: unless-stopped
     environment:
-      - EMAIL=${EMAIL}
+      - TRAEFIK_CERTIFICATESRESOLVERS_LE_ACME_EMAIL=${EMAIL}
     ports:
       - 8080:8080
       - 80:80
       - 443:443
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - letsencrypt_data:/letsencrypt
       - ./config/traefik.yaml:/etc/traefik/traefik.yaml
+    networks:
+      - proxy
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.dashboard.rule=Host(`dashboard.localhost`)"
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.routers.dashboard.entrypoints=web"
+
+volumes:
+  letsencrypt_data:
 
 networks:
   proxy:
