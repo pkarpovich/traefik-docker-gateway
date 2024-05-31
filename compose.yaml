@@ -1,12 +1,13 @@
 services:
   gateway:
-    image: traefik:v2.10
+    image: traefik:v3.0
     restart: unless-stopped
     environment:
       - TRAEFIK_CERTIFICATESRESOLVERS_LE_ACME_EMAIL=${EMAIL}
     ports:
       - 80:80
-      - 443:443
+      - 443:443/tcp
+      - 443:443/udp
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - letsencrypt_data:/letsencrypt

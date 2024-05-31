@@ -4,9 +4,6 @@ log:
 global:
   checkNewVersion: true
 
-experimental:
-  http3: true
-
 api:
   insecure: true
   dashboard: true
