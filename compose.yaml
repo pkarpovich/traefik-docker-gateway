@@ -1,7 +1,12 @@
 services:
   gateway:
-    image: traefik:v3.0
+    image: traefik:v3.5
     restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     environment:
       - TRAEFIK_CERTIFICATESRESOLVERS_LE_ACME_EMAIL=${EMAIL}
     ports:
