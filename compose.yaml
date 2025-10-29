@@ -9,6 +9,8 @@ services:
         max-file: "3"
     environment:
       - TRAEFIK_CERTIFICATESRESOLVERS_LE_ACME_EMAIL=${EMAIL}
+      - CF_DNS_API_TOKEN=${CF_DNS_API_TOKEN}
+      - CF_ZONE_API_TOKEN=${CF_DNS_API_TOKEN}
     ports:
       - 80:80
       - 443:443/tcp

@@ -5,12 +5,18 @@ load balancer, simplifying the deployment and routing of services with automatic
 
 ## Configuration
 
-Before starting, you need to set up your environment variables. Create a .env file in the root of this project with the
-following variables:
+Before starting, you need to set up your environment variables. Copy `.env.example` to `.env` and configure:
+
+```bash
+cp .env.example .env
+```
+
+Required variables:
 
 - `EMAIL`: Your email for Let's Encrypt notifications.
 - `DASHBOARD_DOMAIN`: The domain for accessing the Traefik dashboard.
 - `DASHBOARD_AUTH`: Basic Auth for securing the Traefik dashboard. Use htpasswd to generate credentials.
+- `CF_DNS_API_TOKEN`: Cloudflare API token for DNS-01 ACME challenge (see below).
 
 Example `.env` file:
 
@@ -18,9 +24,26 @@ Example `.env` file:
 EMAIL=your-email@example.com
 DASHBOARD_DOMAIN=traefik.example.com
 DASHBOARD_AUTH=username:$$apr1$$hjKLlZ2E$$Y8rGk7yZt2hEtyyRDT/s5/
+CF_DNS_API_TOKEN=your_cloudflare_api_token
 ```
 
 Note that `DASHBOARD_AUTH` should be escaped with double dollar signs.
+
+### Cloudflare API Token Setup
+
+This setup uses DNS-01 challenge for SSL certificates, which requires a Cloudflare API token:
+
+1. Go to https://dash.cloudflare.com/profile/api-tokens
+2. Click "Create Token"
+3. Use "Edit zone DNS" template or create custom token with permissions:
+   - `Zone.Zone:Read` for all zones
+   - `Zone.DNS:Edit` for all zones
+4. Copy the token to `CF_DNS_API_TOKEN` in your `.env` file
+
+**Benefits of DNS-01 over HTTP-01:**
+- No HTTP endpoint exposed for ACME challenges (prevents attack probes)
+- Support for wildcard certificates (*.example.com)
+- Works behind firewalls/NAT
 
 ## Networking
 
